@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122142759) do
+ActiveRecord::Schema.define(version: 20150122211303) do
+
+  create_table "checks", force: :cascade do |t|
+    t.integer  "website_id"
+    t.integer  "response_code"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "configurables", force: :cascade do |t|
     t.string   "name"
@@ -34,8 +41,10 @@ ActiveRecord::Schema.define(version: 20150122142759) do
   create_table "websites", force: :cascade do |t|
     t.string   "url"
     t.integer  "check_interval"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "recent_failures_count", default: 0
+    t.boolean  "active",                default: true
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
 
   add_index "websites", ["url"], name: "index_websites_on_url", unique: true

@@ -69,6 +69,14 @@ en:
       header: 'Websites'
       new: 'Add Website'
       <<: *website_attributes
+      status: 'Status'
     edit:
       header: 'Edit website information: %{website}'
+    website:
+      pause: 'Deactivate'
+      resume: 'Activate'
+      statuses:
+        pending: 'Pending'
+        failing: 'Failing'
+        success: 'Success'
 

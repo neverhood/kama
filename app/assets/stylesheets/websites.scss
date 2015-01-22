@@ -8,4 +8,14 @@ body#websites {
         display: none;
     }
 
+    .website-status {
+        display: inline-block;
+        width: 100px;
+
+        span {
+            display: inline-block;
+            float: right;
+        }
+    }
+
 }

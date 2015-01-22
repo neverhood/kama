@@ -5,7 +5,11 @@ Rails.application.routes.draw do
 
   get 'admin/configurable' => 'admin/configurables#show', as: 'admin_configurables'
 
-  resources :websites
+  resources :websites do
+    post 'activate',   :on => :member
+    post 'deactivate', :on => :member
+  end
+
   resources :recipients
 
   get 'background_jobs' => 'background_jobs#show', as: 'background_jobs'

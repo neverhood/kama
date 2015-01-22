@@ -1,44 +1,19 @@
-# This file controls what config variables you want to be able to allow your users
-# to set, as well as those you'll be able to access from within the application.
-# 
-# If you want to be able to access a string config[:site_title], for example:
-#   
-# site_title:
-#   name: Site Title
-#   type: string
-#   default: My Site
-#   
-# 'name' is the name that appears in the edit form
-# 
-# 'type' can be 'string' for a text field, 'password' for a password field or 'text' for a text area
-#   'type' defaults to 'string'
-# 
-# 'default' is the default value to use if there's no entry in the database. Otherwise, nil will be returned
-# 
-# Some Examples:
-#   
-# site_title:
-#   name: Site Title
-#   default: My Site
-#   type: string
-#   
-# site_description:
-#   name: Description for Google
-#   default: Lots of Awesomeness Here
-#   type: text
-#   
-# secret:
-#   name: Secret Password for Accessing Secret Areas
-#   default: secret
-#   type: password
-#
-
 default_check_interval:
   name: 'Default Check Interval'
-  default: 60
+  default: 120
   type: 'integer'
 
 critical_check_interval:
   name: 'Critical Check Interval'
   default: 30
+  type: 'integer'
+
+request_timeout:
+  name: 'Request Timeout'
+  default: 20
+  type: 'integer'
+
+critical_failures_count:
+  name: 'Critical failures count'
+  default: 3
   type: 'integer'

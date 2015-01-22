@@ -1,10 +1,14 @@
 <tr>
   <td> <%= website.url %> </td>
+  <td> <strong class='website-status'> <%= t(".statuses.#{website.status}") %> <span> <%= icon_status(website.status) %> </span> </strong> </td>
   <td> <%= website.check_interval %> </td>
 
   <td class='options'>
     <%= link_to icon('glyphicon-pencil', t('common.edit')), edit_website_path(website) %>
     <%= link_to icon('glyphicon-remove text-danger', t('common.destroy')), website_path(website), method: 'delete', class: 'destroy-website',
       data: { remote: true, confirm: t('common.are_you_sure?') } %>
+    <%= link_to icon('glyphicon-pause text-danger', t('.pause')), deactivate_website_path(website), method: 'post', class: 'deactivate-website',
+      data: { remote: true, confirm: t('common.are_you_sure?') } %>
+    <%= link_to icon('glyphicon-play text-success', t('.resume')), activate_website_path(website), method: 'post', class: 'activate-website', data: { remote: true } %>
   </td>
 </tr>

@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 # Background processing
 gem 'sidekiq'
-gem 'sidekiq-cron'
 gem 'sinatra', require: nil # sidekiq web
 
 # Configurations
