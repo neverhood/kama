@@ -25,6 +25,7 @@ en:
       recipients: 'Recipients'
       toggle_navigation: 'Toggle Navigation'
       configurations: 'Configurations'
+      sidekiq: 'Background checks'
 
 
   ####

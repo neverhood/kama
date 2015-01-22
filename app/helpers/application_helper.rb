@@ -2,7 +2,7 @@ module ApplicationHelper
   def navbar_link(text, path, options)
     active = options.delete(:active)
 
-    content_tag :li, link_to(text, path), class: active ? 'active' : ''
+    content_tag :li, link_to(text, path, options), class: active ? 'active' : ''
   end
 
   def page_header(text = t('.header'))

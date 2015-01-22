@@ -1,5 +1,5 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
+<nav class='navbar navbar-default' id='header'>
+  <div class='container-fluid'>
 
     <div class="navbar-header">
       <%= content_tag :button, class: 'navbar-toggle collapsed', data: { toggle: 'collapse', target: '#navbar-controls' } do %>
@@ -21,6 +21,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <%= navbar_link t('.configurations'), admin_configurables_path, active: %w(configurables).include?(controller_name) %>
+        <%= navbar_link t('.sidekiq'), background_jobs_path, active: %w(background_jobs).include?(controller_name), data: { no_turbolink: true } %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

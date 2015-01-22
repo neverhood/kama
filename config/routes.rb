@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   root to: 'websites#index'
 
@@ -5,6 +7,9 @@ Rails.application.routes.draw do
 
   resources :websites
   resources :recipients
+
+  get 'background_jobs' => 'background_jobs#show', as: 'background_jobs'
+  mount Sidekiq::Web => '/sidekiq'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
