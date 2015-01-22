@@ -1,0 +1,16 @@
+en:
+  application:
+    header:
+      brand: 'Kama'
+      websites: 'Websites'
+      recipients: 'Recipients'
+      toggle_navigation: 'Toggle Navigation'
+
+
+  recipients:
+    index:
+      header: 'Recipients'
+
+  websites:
+    index:
+      header: 'Websites'

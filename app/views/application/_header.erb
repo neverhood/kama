@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+
+    <div class="navbar-header">
+      <%= content_tag :button, class: 'navbar-toggle collapsed', data: { toggle: 'collapse', target: '#navbar-controls' } do %>
+        <span class='sr-only'> <%= t '.toggle_navigation' %> </span>
+
+        <% 3.times do %>
+          <span class='icon-bar'></span>
+        <% end %>
+      <% end %>
+
+      <%= link_to t('.brand'), root_path, class: 'navbar-brand', data: { no_turbolink: true } %>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-controls">
+      <ul class="nav navbar-nav">
+        <%= navbar_link t('.websites'), websites_path, active: %w(websites).include?(controller_name) %>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <%= navbar_link t('.recipients'), recipients_path, active: %w(recipients).include?(controller_name) %>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
