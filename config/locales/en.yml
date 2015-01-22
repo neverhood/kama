@@ -11,6 +11,9 @@ en:
     recipients:
       update:
         notice: 'Succesfully updated recipient information'
+    websites:
+      update:
+        notice: 'Succesfully updated website parameters'
 
   ####
   # app/views/application/* translations
@@ -32,6 +35,9 @@ en:
       recipient: &recipient_attributes
         name: 'Name'
         email: 'Email'
+      website: &website_attributes
+        url: 'URL'
+        check_interval: 'Check interval'
 
   ####
   # Common translations
@@ -60,3 +66,8 @@ en:
   websites:
     index:
       header: 'Websites'
+      new: 'Add Website'
+      <<: *website_attributes
+    edit:
+      header: 'Edit website information: %{website}'
+

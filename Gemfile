@@ -1,11 +1,15 @@
 source 'https://rubygems.org'
 
+# Configurations
 gem 'configurable_engine'
 
+# Appearance
 gem 'bootstrap-sass'
 gem 'simple_form'
 
+# Validators
 gem 'email_validator'
+gem 'validate_url'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'

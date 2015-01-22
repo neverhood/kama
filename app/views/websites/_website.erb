@@ -1,0 +1,10 @@
+<tr>
+  <td> <%= website.url %> </td>
+  <td> <%= website.check_interval %> </td>
+
+  <td class='options'>
+    <%= link_to icon('glyphicon-pencil', t('common.edit')), edit_website_path(website) %>
+    <%= link_to icon('glyphicon-remove text-danger', t('common.destroy')), website_path(website), method: 'delete', class: 'destroy-website',
+      data: { remote: true, confirm: t('common.are_you_sure?') } %>
+  </td>
+</tr>

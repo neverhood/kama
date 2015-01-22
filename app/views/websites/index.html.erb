@@ -1,1 +1,30 @@
 <%= page_header %>
+
+<div class='container'>
+  <%= link_to icon_label('glyphicon-plus', t('.new')), nil, id: 'new-website-form-toggler', class: 'btn btn-primary' %>
+
+  <hr>
+  <div id='new-website-form-container'>
+    <%= render 'form' %>
+  </div>
+
+  <table class='table table-condensed' id='websites'>
+    <colgroup>
+      <col span='1' class='col-md-5 col-lg-5'/>
+      <col span='1' class='col-md-5 col-lg-5'/>
+      <col span='1' class='col-md-2 col-lg-2'/>
+    </colgroup>
+
+    <thead>
+      <th> <%= t '.url'            %> </th>
+      <th> <%= t '.check_interval' %> </th>
+      <th> <%= t 'common.options'  %> </th>
+    </thead>
+
+    <tbody>
+      <%= render @websites %>
+    </tbody>
+  </table>
+</div>
+
+

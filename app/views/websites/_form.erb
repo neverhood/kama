@@ -1,0 +1,7 @@
+<%= simple_form_for @website, remote: !@website.persisted?, html: { id: 'website' } do |form| %>
+  <%= form.input :url %>
+  <%= form.input :check_interval, input_html: { value: form.object.check_interval || Configurable.default_check_interval } %>
+
+  <%= form.submit t('common.submit'), class: 'btn btn-primary', data: { disable_with: t('common.please_wait') } %>
+<% end %>
+<hr>

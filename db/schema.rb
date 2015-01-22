@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150122135515) do
+ActiveRecord::Schema.define(version: 20150122142759) do
 
   create_table "configurables", force: :cascade do |t|
     t.string   "name"
@@ -30,5 +30,14 @@ ActiveRecord::Schema.define(version: 20150122135515) do
   end
 
   add_index "recipients", ["email"], name: "index_recipients_on_email", unique: true
+
+  create_table "websites", force: :cascade do |t|
+    t.string   "url"
+    t.integer  "check_interval"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "websites", ["url"], name: "index_websites_on_url", unique: true
 
 end
