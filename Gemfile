@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'configurable_engine'
+
 gem 'bootstrap-sass'
 gem 'simple_form'
 

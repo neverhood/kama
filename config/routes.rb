@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root to: 'websites#index'
 
+  get 'admin/configurable' => 'admin/configurables#show', as: 'admin_configurables'
+
   resources :websites
   resources :recipients
 

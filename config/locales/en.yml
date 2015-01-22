@@ -1,4 +1,8 @@
 en:
+  admin:
+    configurables:
+      show:
+        header: 'Basic Configurations'
   ####
   # Flashes
   ####
@@ -17,6 +21,7 @@ en:
       websites: 'Websites'
       recipients: 'Recipients'
       toggle_navigation: 'Toggle Navigation'
+      configurations: 'Configurations'
 
 
   ####

@@ -16,10 +16,11 @@
     <div class="collapse navbar-collapse" id="navbar-controls">
       <ul class="nav navbar-nav">
         <%= navbar_link t('.websites'), websites_path, active: %w(websites).include?(controller_name) %>
+        <%= navbar_link t('.recipients'), recipients_path, active: %w(recipients).include?(controller_name) %>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <%= navbar_link t('.recipients'), recipients_path, active: %w(recipients).include?(controller_name) %>
+        <%= navbar_link t('.configurations'), admin_configurables_path, active: %w(configurables).include?(controller_name) %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
