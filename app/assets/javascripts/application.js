@@ -28,7 +28,7 @@ $.kama = {
     }
 };
 
-$(document).ready(function() {
+$(document).on('ready page:load', function() {
     Turbolinks.enableProgressBar();
 
     $.kama.controller     = this.body.id;
