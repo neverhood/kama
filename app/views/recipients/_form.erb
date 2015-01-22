@@ -1,0 +1,7 @@
+<%= simple_form_for @recipient, remote: !@recipient.persisted?, html: { id: 'recipient' } do |form| %>
+  <%= form.input :name %>
+  <%= form.input :email %>
+
+  <%= form.submit t('common.submit'), class: 'btn btn-primary', data: { disable_with: t('common.please_wait') } %>
+<% end %>
+<hr>

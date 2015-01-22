@@ -1,0 +1,10 @@
+<tr>
+  <td> <%= recipient.name %> </td>
+  <td> <%= recipient.email %> </td>
+
+  <td class='options'>
+    <%= link_to icon('glyphicon-pencil', t('common.edit')), edit_recipient_path(recipient) %>
+    <%= link_to icon('glyphicon-remove text-danger', t('common.destroy')), recipient_path(recipient), method: 'delete', class: 'destroy-recipient',
+      data: { remote: true, confirm: t('common.are_you_sure?') } %>
+  </td>
+</tr>

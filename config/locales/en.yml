@@ -1,4 +1,16 @@
 en:
+  ####
+  # Flashes
+  ####
+
+  flash:
+    recipients:
+      update:
+        notice: 'Succesfully updated recipient information'
+
+  ####
+  # app/views/application/* translations
+  ####
   application:
     header:
       brand: 'Kama'
@@ -7,9 +19,38 @@ en:
       toggle_navigation: 'Toggle Navigation'
 
 
+  ####
+  # Activerecord
+  ####
+  activerecord:
+    attributes:
+      recipient: &recipient_attributes
+        name: 'Name'
+        email: 'Email'
+
+  ####
+  # Common translations
+  ####
+  common:
+    options: 'Options'
+    edit: 'Edit'
+    destroy: 'Destroy'
+    are_you_sure?: 'Are you sure?'
+    submit: 'Submit'
+    please_wait: 'Please wait..'
+    x: '×'
+
+  ####
+  # Controller-specific translations
+  ####
+
   recipients:
     index:
       header: 'Recipients'
+      new: 'Add Recipient'
+      <<: *recipient_attributes
+    edit:
+      header: 'Edit recipient information: %{recipient}'
 
   websites:
     index:

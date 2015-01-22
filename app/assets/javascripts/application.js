@@ -17,9 +17,16 @@
 //= require_self
 //
 //= require websites
+//= require recipients
 //
 
-$.kama = {};
+$.kama = {
+    formControls: {
+        helpBlock: 'help-block',
+        formGroup: 'form-group',
+        errorClass: 'has-error'
+    }
+};
 
 $(document).ready(function() {
     Turbolinks.enableProgressBar();
