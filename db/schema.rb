@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150122211303) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "checks", force: :cascade do |t|
     t.integer  "website_id"
     t.integer  "response_code"
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 20150122211303) do
     t.datetime "updated_at"
   end
 
-  add_index "configurables", ["name"], name: "index_configurables_on_name"
+  add_index "configurables", ["name"], name: "index_configurables_on_name", using: :btree
 
   create_table "recipients", force: :cascade do |t|
     t.string   "name"
@@ -36,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150122211303) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "recipients", ["email"], name: "index_recipients_on_email", unique: true
+  add_index "recipients", ["email"], name: "index_recipients_on_email", unique: true, using: :btree
 
   create_table "websites", force: :cascade do |t|
     t.string   "url"
@@ -47,6 +50,6 @@ ActiveRecord::Schema.define(version: 20150122211303) do
     t.datetime "updated_at",                           null: false
   end
 
-  add_index "websites", ["url"], name: "index_websites_on_url", unique: true
+  add_index "websites", ["url"], name: "index_websites_on_url", unique: true, using: :btree
 
 end

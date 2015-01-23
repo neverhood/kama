@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'pg' # Postgresql
+
 # Background processing
 gem 'sidekiq'
 gem 'sinatra', require: nil # sidekiq web
