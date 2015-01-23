@@ -17,3 +17,8 @@ critical_failures_count:
   name: 'Critical failures count'
   default: 3
   type: 'integer'
+
+repeat_notification_failures_count:
+  name: 'Repeat notification after failures count'
+  default: 10
+  type: 'integer'

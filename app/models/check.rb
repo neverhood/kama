@@ -4,6 +4,11 @@ class Check < ActiveRecord::Base
   default_scope -> { order(:created_at => :desc) }
 
   def success?
-    response_code.to_s[0] == "2"
+    # 2x and 3x are considered being successfull
+    %(2 3).include? response_code.to_s[0]
+  end
+
+  def failure?
+    not success?
   end
 end

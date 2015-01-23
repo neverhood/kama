@@ -21,13 +21,25 @@ class WebsiteCheck
     # sanity check, make sure @website record hasn't been destroyed by user
     return nil unless @website.reload.present?
 
-    if check_failed?(response_code)
-      @website.increment! :recent_failures_count
+    website_check = @website.checks.create(response_code: response_code)
+
+    if website_check.failure?
+      @website.failing!
     else
       @website.recover! if @website.failing?
     end
 
-    @website.checks.create(response_code: response_code)
+    #if @website.requires_failure_notification?
+      #@website.send_failure_notification!
+    #end
+
+    #if check_failed?(response_code)
+      #@website.increment! :recent_failures_count
+    #else
+      #@website.recover! if @website.failing?
+    #end
+
+    #@website.checks.create(response_code: response_code)
 
     # Re-schedule the job
     check_interval = (@website.failing?? Configurable.critical_check_interval : @website.check_interval).seconds
@@ -37,13 +49,4 @@ class WebsiteCheck
     end
   end
 
-  private
-
-  def check_failed? response_code
-    response_code.to_s[0] != "2"
-  end
-
-  def check_successed? response_code
-    not check_failed?(response_code)
-  end
 end

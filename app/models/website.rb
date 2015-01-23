@@ -36,6 +36,21 @@ class Website < ActiveRecord::Base
     end
   end
 
+  def requires_failure_notification?
+    # TODO: cache ratio
+    _critical_failures_count = Configurable.critical_failures_count
+
+    return true if _critical_failures_count == recent_failures_count
+
+    _notifications_ratio = _critical_failures_count + Configurable.repeat_notification_failures_count
+
+    if recent_failures_count < _notifications_ratio
+      false
+    else
+      ((recent_failures_count - _notifications_ratio) % 10).zero?
+    end
+  end
+
   def uri
     @_uri ||= URI.parse(url).tap { |website_url| website_url.path = "/" if website_url.path.empty? }
   end
@@ -54,6 +69,14 @@ class Website < ActiveRecord::Base
 
   def recover!
     update_attribute :recent_failures_count, 0
+
+    recovery_notification!
+  end
+
+  def failing!
+    increment! :recent_failures_count
+
+    failure_notification! if requires_failure_notification?
   end
 
   def scheduled?
@@ -90,5 +113,15 @@ class Website < ActiveRecord::Base
     jobs = schedule.select { |job| job.args.include?(id) }
 
     jobs.each(&:delete)
+  end
+
+  private
+
+  def failure_notification!
+    logger.debug "========================= #{url} FAILURE ============================="
+  end
+
+  def recovery_notification!
+    logger.debug "========================= #{url} RECOVERY ============================="
   end
 end
