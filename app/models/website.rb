@@ -17,12 +17,17 @@ class Website < ActiveRecord::Base
   # Creates a self-recursive background job that will launch in #check_interval seconds after record creation and will
   # re-run itself upon completion
   #####
-  after_create   -> { schedule! }
+  after_create :schedule!
 
   #####
   # Remove running and scheduled jobs
   #####
-  before_destroy -> { deactivate! }
+  before_destroy :deactivate!
+
+  # Overwrites default #check_interval
+  def check_interval
+    failing?? Configurable.critical_check_interval : read_attribute(:check_interval)
+  end
 
   def status
     if failing?
@@ -64,7 +69,8 @@ class Website < ActiveRecord::Base
   end
 
   def schedule!
-    WebsiteCheck.perform_in check_interval.seconds, id
+    # CsvImportJob.set(wait_until: Date.tomorrow.noon).perform_later('/tmp/my_file.csv')
+    WebsiteCheck.set(wait: check_interval.seconds).perform_later(id) # perform_in check_interval.seconds, id
   end
 
   def recover!
@@ -82,13 +88,13 @@ class Website < ActiveRecord::Base
   def scheduled?
     schedule = Sidekiq::ScheduledSet.new
 
-    schedule.find { |job| job.args.include?(id) and job.queue == CHECKS_QUEUE }.present?
+    schedule.find { |job| job.args.first['arguments'].include?(id) and job.queue == CHECKS_QUEUE }.present?
   end
 
   def running?
     queue = Sidekiq::Queue.new(CHECKS_QUEUE)
 
-    queue.find { |job| job.args.include?(id) and job.queue == CHECKS_QUEUE }.present?
+    queue.find { |job| job.args.first.arguments.include?(id) }.present?
   end
 
   def activate!
@@ -100,19 +106,8 @@ class Website < ActiveRecord::Base
   def deactivate!
     update_attribute :active, false
 
-    Sidekiq.redis do |redis|
-      queue_key = "queue:#{CHECKS_QUEUE}"
-      jobs = redis.lrange(queue_key, 0, -1)
-
-      jobs.each do |job|
-        redis.lrem(queue_key, 0, job) if JSON.load(job)['args'].include?(id)
-      end
-    end
-
-    schedule = Sidekiq::ScheduledSet.new
-    jobs = schedule.select { |job| job.args.include?(id) }
-
-    jobs.each(&:delete)
+    stop_running_jobs!
+    remove_scheduled_jobs!
   end
 
   private
@@ -123,5 +118,23 @@ class Website < ActiveRecord::Base
 
   def recovery_notification!
     logger.debug "========================= #{url} RECOVERY ============================="
+  end
+
+  def stop_running_jobs!
+    Sidekiq.redis do |redis|
+      queue_key = "queue:#{CHECKS_QUEUE}"
+      jobs = redis.lrange(queue_key, 0, -1)
+
+      jobs.each do |job|
+        redis.lrem(queue_key, 0, job) if JSON.load(job)['args'].first['arguments'].include?(id)
+      end
+    end
+  end
+
+  def remove_scheduled_jobs!
+    schedule = Sidekiq::ScheduledSet.new
+    jobs = schedule.select { |job| job.args.first['arguments'].include?(id) }
+
+    jobs.each(&:delete)
   end
 end

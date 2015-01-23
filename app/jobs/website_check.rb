@@ -1,7 +1,6 @@
-class WebsiteCheck
-  include Sidekiq::Worker
+class WebsiteCheck < ActiveJob::Base
 
-  sidekiq_options :queue => :website_checks
+  queue_as Website::CHECKS_QUEUE.to_sym
 
   def perform(website_id)
     @website = Website.find(website_id)
@@ -42,11 +41,12 @@ class WebsiteCheck
     #@website.checks.create(response_code: response_code)
 
     # Re-schedule the job
-    check_interval = (@website.failing?? Configurable.critical_check_interval : @website.check_interval).seconds
+    # check_interval = (@website.failing?? Configurable.critical_check_interval : @website.check_interval).seconds
 
-    if @website.active?
-      WebsiteCheck.perform_in check_interval, @website.id
-    end
+    @website.schedule! if @website.active?
+    #if @website.active?
+      #WebsiteCheck.perform_in check_interval, @website.id
+    #end
   end
 
 end
