@@ -12,7 +12,18 @@ $.kama.websites =
             $formToggler   = $('a#new-website-form-toggler')
             $formContainer = $('div#new-website-form-container')
             $form          = $('form#website')
-            destroySelector          = 'a.destroy-website'
+
+            destroySelector    = 'a.destroy-website'
+            deactivateSelector = 'a.deactivate-website'
+            activateSelector   = 'a.activate-website'
+
+            # Deactivate
+            $websites.on 'ajax:beforeSend', deactivateSelector, ->
+                $(this).parents('tr').addClass 'inactive'
+
+            # Activate
+            $websites.on 'ajax:beforeSend', activateSelector, ->
+                $(this).parents('tr').removeClass 'inactive'
 
             # Destroy
             $websites.on 'ajax:beforeSend', destroySelector, ->

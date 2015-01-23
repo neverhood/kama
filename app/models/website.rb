@@ -1,5 +1,6 @@
 class Website < ActiveRecord::Base
   STATUSES = { failing: 'failing', success: 'success', pending: 'pending' }
+  CHECKS_QUEUE = "website_checks"
 
   validates :check_interval, :url, presence: true
   # only validate url format if url is present (avoid unnecesarry validation errors)
@@ -16,13 +17,17 @@ class Website < ActiveRecord::Base
   # Creates a self-recursive background job that will launch in #check_interval seconds after record creation and will
   # re-run itself upon completion
   #####
-  after_create -> { WebsiteCheck.perform_in check_interval.seconds, id }
+  after_create -> { schedule! }
 
   def status
     if failing?
       STATUSES[:failing]
     else
-      checks.any?? STATUSES[:success] : STATUSES[:pending]
+      if checks.any?
+        checks.first.success?? STATUSES[:success] : STATUSES[:pending]
+      else
+        STATUSES[:pending]
+      end
     end
   end
 
@@ -38,15 +43,47 @@ class Website < ActiveRecord::Base
     recent_failures_count >= Configurable.critical_failures_count
   end
 
+  def schedule!
+    WebsiteCheck.perform_in check_interval.seconds, id
+  end
+
   def recover!
     update_attribute :recent_failures_count, 0
   end
 
+  def scheduled?
+    schedule = Sidekiq::ScheduledSet.new
+
+    schedule.find { |job| job.args.include?(id) and job.queue == CHECKS_QUEUE }.present?
+  end
+
+  def running?
+    queue = Sidekiq::Queue.new(CHECKS_QUEUE)
+
+    queue.find { |job| job.args.include?(id) and job.queue == CHECKS_QUEUE }.present?
+  end
+
   def activate!
     update_attribute :active, true
+
+    schedule! unless scheduled? or running?
   end
 
   def deactivate!
     update_attribute :active, false
+
+    Sidekiq.redis do |redis|
+      queue_key = "queue:#{CHECKS_QUEUE}"
+      jobs = redis.lrange(queue_key, 0, -1)
+
+      jobs.each do |job|
+        redis.lrem(queue_key, 0, job) if JSON.load(job)['args'].include?(id)
+      end
+    end
+
+    schedule = Sidekiq::ScheduledSet.new
+    jobs = schedule.select { |job| job.args.include?(id) }
+
+    jobs.each(&:delete)
   end
 end

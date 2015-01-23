@@ -1,5 +1,5 @@
-<tr>
-  <td> <%= website.url %> </td>
+<tr class='<%= "inactive" unless website.active? %>'>
+  <td> <%= link_to website.url, website_path(website) %> </td>
   <td> <strong class='website-status'> <%= t(".statuses.#{website.status}") %> <span> <%= icon_status(website.status) %> </span> </strong> </td>
   <td> <%= website.check_interval %> </td>
 

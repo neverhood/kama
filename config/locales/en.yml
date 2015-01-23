@@ -1,4 +1,9 @@
 en:
+  time:
+    formats:
+      website_check: '%B %e, %Y at %H:%M:%S'
+
+
   admin:
     configurables:
       show:
@@ -39,6 +44,9 @@ en:
       website: &website_attributes
         url: 'URL'
         check_interval: 'Check interval'
+      check: &check_attributes
+        created_at: 'Performed at'
+        response_code: 'Response code'
 
   ####
   # Common translations
@@ -72,6 +80,9 @@ en:
       status: 'Status'
     edit:
       header: 'Edit website information: %{website}'
+    show:
+      header: 'Website: %{website}'
+      <<: *check_attributes
     website:
       pause: 'Deactivate'
       resume: 'Activate'

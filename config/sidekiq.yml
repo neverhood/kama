@@ -1,0 +1,4 @@
+:queues:
+  - default
+  - [website_checks, 2]
+  - mail

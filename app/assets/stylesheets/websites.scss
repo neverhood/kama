@@ -8,6 +8,10 @@ body#websites {
         display: none;
     }
 
+    .inactive {
+        background: $gray-lighter;
+    }
+
     .website-status {
         display: inline-block;
         width: 100px;

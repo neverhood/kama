@@ -1,9 +1,13 @@
 class WebsitesController < ApplicationController
-  before_filter :find_website!, only: [ :edit, :destroy, :update ]
+  before_filter :find_website!, only: [ :edit, :destroy, :update, :show, :activate, :deactivate ]
 
   def index
     @websites = Website.all
     @website  = Website.new
+  end
+
+  def show
+    @checks = @website.checks
   end
 
   def create
@@ -26,6 +30,18 @@ class WebsitesController < ApplicationController
 
   def destroy
     @website.destroy
+
+    render nothing: true, status: 200
+  end
+
+  def activate
+    @website.activate!
+
+    render nothing: true, status: 200
+  end
+
+  def deactivate
+    @website.deactivate!
 
     render nothing: true, status: 200
   end
