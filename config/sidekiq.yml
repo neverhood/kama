@@ -1,4 +1,4 @@
 :queues:
   - default
+  - mailers
   - [website_checks, 2]
-  - mail

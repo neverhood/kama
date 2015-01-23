@@ -8,6 +8,17 @@ en:
     configurables:
       show:
         header: 'Basic Configurations'
+
+  notification_mailer:
+    failure:
+      subject: "[Kama Monitoring] Failure notification: %{url} failed %{checks} checks in a row!"
+      summary: "Please see website checks summary here: %{link}"
+    repetitive_failure:
+      subject: "[Kama Monitoring] Repetitive Failure notification: %{url} failed %{checks} checks in a row!"
+      summary: "Please see website checks summary here: %{link}"
+    recovery:
+      subject: "[Kama Monitoring] Recovery notification: %{url} has just recovered!"
+      summary: "Please see website checks summary here: %{link}"
   ####
   # Flashes
   ####

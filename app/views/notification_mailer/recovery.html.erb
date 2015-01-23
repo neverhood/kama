@@ -1,0 +1,5 @@
+<h3> <%= "#{@subject}" %> </h3>
+
+<p>
+  <%= t('.summary', link: link_to(nil, website_url(@website))).html_safe %>
+</p>

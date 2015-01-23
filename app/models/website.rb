@@ -109,11 +109,15 @@ class Website < ActiveRecord::Base
   private
 
   def failure_notification!
-    logger.debug "========================= #{url} FAILURE ============================="
+    if recent_failures_count > Configurable.critical_failures_count
+      NotificationMailer.repetitive_failure(self).deliver_later
+    else
+      NotificationMailer.failure(self).deliver_later
+    end
   end
 
   def recovery_notification!
-    logger.debug "========================= #{url} RECOVERY ============================="
+    NotificationMailer.recovery(self).deliver_later
   end
 
   def stop_running_jobs!
