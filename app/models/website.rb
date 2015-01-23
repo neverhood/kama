@@ -17,7 +17,12 @@ class Website < ActiveRecord::Base
   # Creates a self-recursive background job that will launch in #check_interval seconds after record creation and will
   # re-run itself upon completion
   #####
-  after_create -> { schedule! }
+  after_create   -> { schedule! }
+
+  #####
+  # Remove running and scheduled jobs
+  #####
+  before_destroy -> { deactivate! }
 
   def status
     if failing?
