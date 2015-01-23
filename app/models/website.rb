@@ -42,17 +42,13 @@ class Website < ActiveRecord::Base
   end
 
   def requires_failure_notification?
-    # TODO: cache ratio
     _critical_failures_count = Configurable.critical_failures_count
 
-    return true if _critical_failures_count == recent_failures_count
-
-    _notifications_ratio = _critical_failures_count + Configurable.repeat_notification_failures_count
-
-    if recent_failures_count < _notifications_ratio
-      false
+    if recent_failures_count > _critical_failures_count
+      # tell if a number is in arithmetic seq
+      ( (recent_failures_count - _critical_failures_count) % Configurable.repeat_notification_failures_count ).zero?
     else
-      ((recent_failures_count - _notifications_ratio) % 10).zero?
+      recent_failures_count == _critical_failures_count
     end
   end
 
